@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=QR
+GenericName=QR code generator
+Comment=Create QR codes
+Categories=Graphics;2DGraphics;RasterGraphics;
+Exec=com.github.hanscronau.qr
+Icon=application-default-icon
+Terminal=false
+Type=Application
+Keywords=QR;Code;Generate;Generator;
+
