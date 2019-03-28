@@ -3,6 +3,7 @@ project('com.github.hanscronau.qr', 'vala', 'c')
 executable(
     meson.project_name(),
     'src/Application.vala',
+    'src/qrencode.vala',
     dependencies: [
         dependency('gtk+-3.0')
     ],
