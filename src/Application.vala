@@ -84,7 +84,6 @@ namespace QR {
                     return;
                 }
                 update_timeout_id = Timeout.add (300, () => {
-                    debug(input_text.buffer.text);
                     updatePreview.begin(input_text.buffer.text, qr_image);
                     update_timeout_id = 0;
                     return false;

@@ -24,13 +24,11 @@ namespace QR {
     public async Gdk.Pixbuf? qrencode (string input, string type = "svg", int size = 10, int margin = 1, int dpi = 90) {
         try {
             string[] command = get_command (input, type, size, margin, dpi);
-            debug ("Executing: %s", string.joinv (" ", command));
 
             string? output = null;
             var subprocess = new Subprocess.newv (command, SubprocessFlags.STDOUT_PIPE);
             yield subprocess.communicate_utf8_async (null, null, out output, null);
             if (subprocess.get_successful()) {
-                debug ("Success");
                 var loader = new Gdk.PixbufLoader();
                 loader.write(output.data);
                 loader.close();
