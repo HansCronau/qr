@@ -5,7 +5,8 @@ executable(
     'src/Application.vala',
     'src/qrencode.vala',
     dependencies: [
-        dependency('gtk+-3.0')
+        dependency('gtk+-3.0'),
+        dependency('gdk-pixbuf-2.0')
     ],
     install: true
 )
