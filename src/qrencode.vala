@@ -21,7 +21,7 @@
 */
 
 namespace QR {
-    public async Gdk.Pixbuf? qrencode (string input, string type = "svg", int size = 1, int margin = 1, int dpi = 90) {
+    public async Gdk.Pixbuf? qrencode (string input, string type = "svg", int size = 10, int margin = 1, int dpi = 90) {
         try {
             string[] command = get_command (input, type, size, margin, dpi);
             debug ("Executing: %s", string.joinv (" ", command));
