@@ -23,6 +23,8 @@
 namespace QR {
     public class App : Gtk.Application {
 
+        uint update_timeout_id = 0;
+
         public App () {
             Object (
                 application_id: "com.github.hanscronau.qr",
@@ -75,13 +77,20 @@ namespace QR {
             right_grid.add (save_button);
 
             left_right_grid.add (right_grid);
-            
-            
+
+
             input_text.buffer.changed.connect (() => {
-                debug(input_text.buffer.text);
-                updatePreview.begin(input_text.buffer.text, qr_image);
+                if (update_timeout_id > 0) {
+                    return;
+                }
+                update_timeout_id = Timeout.add (300, () => {
+                    debug(input_text.buffer.text);
+                    updatePreview.begin(input_text.buffer.text, qr_image);
+                    update_timeout_id = 0;
+                    return false;
+                });
             });
-            
+
 
             main_grid.add(left_right_grid);
 
