@@ -30,6 +30,10 @@ namespace QR {
             );
         }
 
+        async void updatePreview (string input, Gtk.Image image) {
+            image.pixbuf = yield qrencode(input);
+        }
+
         protected override void activate () {
             var main_window = new Gtk.ApplicationWindow (this);
             main_window.default_height = 300;
@@ -73,6 +77,12 @@ namespace QR {
             left_right_grid.add (right_grid);
             
             
+            input_text.buffer.changed.connect (() => {
+                debug(input_text.buffer.text);
+                updatePreview.begin(input_text.buffer.text, qr_image);
+            });
+            
+
             main_grid.add(left_right_grid);
 
 
