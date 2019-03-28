@@ -33,13 +33,14 @@ namespace QR {
         }
 
         async void updatePreview (string input, Gtk.Image image) {
-            image.pixbuf = yield qrencode(input);
+            var unscaled_buf = yield qrencode (input);
+            image.pixbuf = unscaled_buf.scale_simple (300, 300, Gdk.InterpType.NEAREST);
         }
 
         protected override void activate () {
             var main_window = new Gtk.ApplicationWindow (this);
-            main_window.default_height = 300;
-            main_window.default_width = 300;
+            main_window.default_width = 640;
+            main_window.default_height = 400;
             main_window.title = "QR";
 
             int small_space = 6;
@@ -47,7 +48,8 @@ namespace QR {
             var main_grid = new Gtk.Grid ();
 
             var left_right_grid = new Gtk.Grid ();
-            left_right_grid.column_spacing = 42;
+            left_right_grid.column_homogeneous = true;
+            left_right_grid.column_spacing = 40;
 
 
             var left_grid = new Gtk.Grid ();
@@ -55,9 +57,12 @@ namespace QR {
             left_grid.row_spacing = small_space;
 
             var left_label = new Gtk.Label ("Text");
+            left_label.hexpand = true;
             left_grid.add (left_label);
 
             var input_text = new Gtk.TextView ();
+            input_text.hexpand = true;
+            input_text.wrap_mode = Gtk.WrapMode.WORD_CHAR;
             left_grid.add (input_text);
 
             left_right_grid.add (left_grid);
