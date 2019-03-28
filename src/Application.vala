@@ -20,68 +20,69 @@
 *              Peter Uithoven <peter@peteruithoven.nl>
 */
 
-public class App : Gtk.Application {
+namespace QR {
+    public class App : Gtk.Application {
 
-    public App () {
-        Object (
-            application_id: "com.github.hanscronau.qr",
-            flags: ApplicationFlags.NON_UNIQUE
-        );
-    }
+        public App () {
+            Object (
+                application_id: "com.github.hanscronau.qr",
+                flags: ApplicationFlags.NON_UNIQUE
+            );
+        }
 
-    protected override void activate () {
-        var main_window = new Gtk.ApplicationWindow (this);
-        main_window.default_height = 300;
-        main_window.default_width = 300;
-        main_window.title = "QR";
+        protected override void activate () {
+            var main_window = new Gtk.ApplicationWindow (this);
+            main_window.default_height = 300;
+            main_window.default_width = 300;
+            main_window.title = "QR";
 
-        int small_space = 6;
+            int small_space = 6;
 
-        var main_grid = new Gtk.Grid ();
+            var main_grid = new Gtk.Grid ();
 
-        var left_right_grid = new Gtk.Grid ();
-        left_right_grid.column_spacing = 42;
-
-
-        var left_grid = new Gtk.Grid ();
-        left_grid.orientation = Gtk.Orientation.VERTICAL;
-        left_grid.row_spacing = small_space;
-
-        var left_label = new Gtk.Label ("Text");
-        left_grid.add (left_label);
-
-        var input_text = new Gtk.TextView ();
-        left_grid.add (input_text);
-
-        left_right_grid.add (left_grid);
+            var left_right_grid = new Gtk.Grid ();
+            left_right_grid.column_spacing = 42;
 
 
-        var right_grid = new Gtk.Grid ();
-        right_grid.orientation = Gtk.Orientation.VERTICAL;
-        right_grid.row_spacing = small_space;
+            var left_grid = new Gtk.Grid ();
+            left_grid.orientation = Gtk.Orientation.VERTICAL;
+            left_grid.row_spacing = small_space;
 
-        var right_label = new Gtk.Label ("QR Code");
-        right_grid.add (right_label);
+            var left_label = new Gtk.Label ("Text");
+            left_grid.add (left_label);
 
-        var qr_image = new Gtk.Image ();
-        right_grid.add (qr_image);
+            var input_text = new Gtk.TextView ();
+            left_grid.add (input_text);
 
-        var save_button = new Gtk.Button.with_label ("Save");
-        right_grid.add (save_button);
-
-        left_right_grid.add (right_grid);
-        
-        
-        main_grid.add(left_right_grid);
+            left_right_grid.add (left_grid);
 
 
-        main_window.add (main_grid);
-        main_window.show_all ();
-    }
+            var right_grid = new Gtk.Grid ();
+            right_grid.orientation = Gtk.Orientation.VERTICAL;
+            right_grid.row_spacing = small_space;
 
-    public static int main (string[] args) {
-        var app = new App ();
-        return app.run (args);
+            var right_label = new Gtk.Label ("QR Code");
+            right_grid.add (right_label);
+
+            var qr_image = new Gtk.Image ();
+            right_grid.add (qr_image);
+
+            var save_button = new Gtk.Button.with_label ("Save");
+            right_grid.add (save_button);
+
+            left_right_grid.add (right_grid);
+            
+            
+            main_grid.add(left_right_grid);
+
+
+            main_window.add (main_grid);
+            main_window.show_all ();
+        }
+
+        public static int main (string[] args) {
+            var app = new App ();
+            return app.run (args);
+        }
     }
 }
-
