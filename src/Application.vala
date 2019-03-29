@@ -21,90 +21,23 @@
 */
 
 namespace QR {
-    public class App : Gtk.Application {
+    public class Application : Gtk.Application {
 
-        uint update_timeout_id = 0;
-
-        public App () {
+        public Application () {
             Object (
                 application_id: "com.github.hanscronau.qr",
                 flags: ApplicationFlags.NON_UNIQUE
             );
         }
 
-        async void updatePreview (string input, Gtk.Image image) {
-            var unscaled_buf = yield qrencode (input);
-            image.pixbuf = unscaled_buf.scale_simple (300, 300, Gdk.InterpType.NEAREST);
-        }
-
         protected override void activate () {
-            var main_window = new Gtk.ApplicationWindow (this);
-            main_window.default_width = 640;
-            main_window.default_height = 400;
-            main_window.title = "QR";
-
-            int small_space = 6;
-
-            var main_grid = new Gtk.Grid ();
-
-            var left_right_grid = new Gtk.Grid ();
-            left_right_grid.column_homogeneous = true;
-            left_right_grid.column_spacing = 40;
-
-
-            var left_grid = new Gtk.Grid ();
-            left_grid.orientation = Gtk.Orientation.VERTICAL;
-            left_grid.row_spacing = small_space;
-
-            var left_label = new Gtk.Label ("Text");
-            left_label.hexpand = true;
-            left_grid.add (left_label);
-
-            var input_text = new Gtk.TextView ();
-            input_text.hexpand = true;
-            input_text.wrap_mode = Gtk.WrapMode.WORD_CHAR;
-            left_grid.add (input_text);
-
-            left_right_grid.add (left_grid);
-
-
-            var right_grid = new Gtk.Grid ();
-            right_grid.orientation = Gtk.Orientation.VERTICAL;
-            right_grid.row_spacing = small_space;
-
-            var right_label = new Gtk.Label ("QR Code");
-            right_grid.add (right_label);
-
-            var qr_image = new Gtk.Image ();
-            right_grid.add (qr_image);
-
-            var save_button = new Gtk.Button.with_label ("Save");
-            right_grid.add (save_button);
-
-            left_right_grid.add (right_grid);
-
-
-            input_text.buffer.changed.connect (() => {
-                if (update_timeout_id > 0) {
-                    return;
-                }
-                update_timeout_id = Timeout.add (300, () => {
-                    updatePreview.begin(input_text.buffer.text, qr_image);
-                    update_timeout_id = 0;
-                    return false;
-                });
-            });
-
-
-            main_grid.add(left_right_grid);
-
-
-            main_window.add (main_grid);
+            var main_window = new MainWindow ();
+            main_window.set_application (this);
             main_window.show_all ();
         }
 
         public static int main (string[] args) {
-            var app = new App ();
+            var app = new Application ();
             return app.run (args);
         }
     }
