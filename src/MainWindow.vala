@@ -32,6 +32,7 @@ namespace QR {
 
         public MainWindow (Gtk.Application application) {
             Object (application: application,
+                    resizable: false,
                     title: "QR");
 
             this.get_style_context().add_class("rounded");
