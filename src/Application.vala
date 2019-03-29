@@ -42,8 +42,7 @@ namespace QR {
         }
 
         protected override void activate () {
-            main_window = new MainWindow ();
-            main_window.set_application (this);
+            main_window = new MainWindow (this);
             main_window.show_all ();
         }
 

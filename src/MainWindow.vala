@@ -30,8 +30,9 @@ namespace QR {
             image.pixbuf = unscaled_buf.scale_simple (300, 300, Gdk.InterpType.NEAREST);
         }
 
-        public MainWindow () {
-            this.title = "QR";
+        public MainWindow (Gtk.Application application) {
+            Object (application: application,
+                    title: "QR");
 
             this.get_style_context().add_class("rounded");
             this.get_style_context().add_class("default-decoration");
