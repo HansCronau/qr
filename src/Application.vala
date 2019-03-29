@@ -22,16 +22,27 @@
 
 namespace QR {
     public class Application : Gtk.Application {
+        private Gtk.Window main_window = null;
 
         public Application () {
             Object (
                 application_id: "com.github.hanscronau.qr",
                 flags: ApplicationFlags.NON_UNIQUE
             );
+
+            // Support Ctrl+Q to quit
+            var quit_action = new SimpleAction ("quit", null);
+            quit_action.activate.connect (() => {
+                if (main_window != null) {
+                    main_window.close ();
+                }
+            });
+            add_action (quit_action);
+            set_accels_for_action ("app.quit", {"<Ctrl>Q"});
         }
 
         protected override void activate () {
-            var main_window = new MainWindow ();
+            main_window = new MainWindow ();
             main_window.set_application (this);
             main_window.show_all ();
         }
